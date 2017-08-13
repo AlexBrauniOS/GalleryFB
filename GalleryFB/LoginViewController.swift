@@ -23,38 +23,26 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginButton.center = view.center
-        loginButton.delegate = self
-        view.addSubview(loginButton)
+//        loginButton.center = view.center
+//        loginButton.delegate = self
+//        view.addSubview(loginButton)
         
         if (FBSDKAccessToken.current() != nil) {
             print("current token")
-            fetchProfile()
-        }
-    }
-    
-    
-    func fetchProfile() {
-        print("fetch profile")
-        
-        let parameters = ["fields" : "email, first_name"]
-        FBSDKGraphRequest(graphPath: "me", parameters: parameters).start { (connection, result, error) in
-            if error != nil {
-                 print(error!)
-                return
-            }
-
-            print(result)
             
-//            if let email = result["email"] as? String {
-//                print(email)
-//            }
+//            fetchProfile()
+            
+        } else {
+            loginButton.center = view.center
+            loginButton.delegate = self
+            view.addSubview(loginButton)
         }
+        
     }
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         print("completed login")
-        fetchProfile()
+
         if (error != nil){
             print(error.localizedDescription)
         }
@@ -79,14 +67,5 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         return true
     }
     
-    func setup() {
-        
-    }
-    
-    
-    @IBAction func getData(_ sender: UIButton) {
-       setup()
-        
-    }
 }
 
