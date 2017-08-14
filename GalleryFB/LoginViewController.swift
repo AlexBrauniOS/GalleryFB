@@ -22,23 +22,27 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        loginButton.center = view.center
-//        loginButton.delegate = self
-//        view.addSubview(loginButton)
-        
-        if (FBSDKAccessToken.current() != nil) {
-            print("current token")
-            
-//            fetchProfile()
-            
-        } else {
-            loginButton.center = view.center
-            loginButton.delegate = self
-            view.addSubview(loginButton)
-        }
-        
+        getLoginButton()
+//        if (FBSDKAccessToken.current() != nil) {
+//            print("current token")
+//            
+////            fetchProfile()
+//            
+//        } else {
+//            loginButton.center = view.center
+//            loginButton.delegate = self
+//            view.addSubview(loginButton)
+//        }
+//        
     }
+    
+    func getLoginButton() {
+        loginButton.center = view.center
+        loginButton.delegate = self
+        view.addSubview(loginButton)
+    }
+    
+    // MARK: - Login/Logout button
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         print("completed login")
@@ -48,15 +52,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
         
         if let userToken = result.token{
-            // GET USER TOKEN HERE
-            let token:FBSDKAccessToken = userToken
+            let token: FBSDKAccessToken = userToken
             print(token)
-            //print token id and user id
             print("TOKEN IS \(FBSDKAccessToken.current().tokenString)")
             print("USER ID IS \(FBSDKAccessToken.current().userID)")
             
+            let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "NavigationController")
+            self.present(navigationController!, animated: true, completion: nil)
+            
         }
-        
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
@@ -66,6 +70,5 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     func loginButtonWillLogin(_ loginButton: FBSDKLoginButton!) -> Bool {
         return true
     }
-    
 }
 

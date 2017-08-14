@@ -17,5 +17,4 @@ class Albums {
         self.albumName = albumName
         self.albumCover = albumCover
     }
-    
 }
