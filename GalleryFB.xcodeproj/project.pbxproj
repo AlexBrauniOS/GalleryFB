@@ -22,6 +22,7 @@
 		D2232E511F3C944500F8AB12 /* AlbumsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2232E501F3C944500F8AB12 /* AlbumsTableViewCell.swift */; };
 		D2232E531F3C945100F8AB12 /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2232E521F3C945100F8AB12 /* PhotosTableViewCell.swift */; };
 		D2232E571F3C948B00F8AB12 /* Albums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2232E561F3C948B00F8AB12 /* Albums.swift */; };
+		D2B2AA3D1F43A18800AB0234 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2AA3C1F43A18800AB0234 /* ImageDownloader.swift */; };
 		D2B90E611F3D1C65000FF816 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B90E601F3D1C65000FF816 /* Photos.swift */; };
 		DBA1C03937E9CF2B5B944DA2 /* Pods_GalleryFBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936291F81AF8857174AAC5C /* Pods_GalleryFBTests.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		D2232E501F3C944500F8AB12 /* AlbumsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsTableViewCell.swift; sourceTree = "<group>"; };
 		D2232E521F3C945100F8AB12 /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
 		D2232E561F3C948B00F8AB12 /* Albums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Albums.swift; sourceTree = "<group>"; };
+		D2B2AA3C1F43A18800AB0234 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		D2B90E601F3D1C65000FF816 /* Photos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		F77B247133001D215B43340F /* Pods-GalleryFBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GalleryFBTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GalleryFBTests/Pods-GalleryFBTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,6 +155,7 @@
 			children = (
 				D2232E201F3C91FE00F8AB12 /* Main.storyboard */,
 				D2232E1C1F3C91FE00F8AB12 /* AppDelegate.swift */,
+				D2B2AA3C1F43A18800AB0234 /* ImageDownloader.swift */,
 				D2232E551F3C946700F8AB12 /* Controller */,
 				D2232E5A1F3C94B800F8AB12 /* Model */,
 				D2232E541F3C945600F8AB12 /* Cell */,
@@ -498,6 +501,7 @@
 				D2232E1F1F3C91FE00F8AB12 /* LoginViewController.swift in Sources */,
 				D2232E531F3C945100F8AB12 /* PhotosTableViewCell.swift in Sources */,
 				D2232E4D1F3C934300F8AB12 /* PhotosInAlbumTableViewController.swift in Sources */,
+				D2B2AA3D1F43A18800AB0234 /* ImageDownloader.swift in Sources */,
 				D2232E4B1F3C932B00F8AB12 /* AlbumsTableViewController.swift in Sources */,
 				D2232E1D1F3C91FE00F8AB12 /* AppDelegate.swift in Sources */,
 				D2232E4F1F3C935700F8AB12 /* PhotoViewController.swift in Sources */,

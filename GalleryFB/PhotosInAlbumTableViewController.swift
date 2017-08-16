@@ -11,12 +11,14 @@ import FacebookCore
 import FBSDKCoreKit
 import FBSDKLoginKit
 import FacebookLogin
+import Alamofire
+import AlamofireImage
 
 class PhotosInAlbumTableViewController: UITableViewController {
 
-    var album: String!
-    var dict: [String: AnyObject]!
-    var photos = [Photos]() {
+    public var albumName: String!
+    var dict: [String : AnyObject]!
+    var photos:[String] = [] {
         didSet{
             stopActivityIndicator()
             self.tableView.reloadData()
@@ -25,15 +27,19 @@ class PhotosInAlbumTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchProfile()
+        fetchPhotos()
         startActivityIndicator()
         setup()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ImageDownloader.shared.stopRequests()
+    }
+    
     // MARK: - Get data func
     
-    func fetchProfile() {
-        print("fetch profile photos")
+    func fetchPhotos() {
         
         let parameters = ["fields" : "name,photos{images}"]
         FBSDKGraphRequest(graphPath: "me/albums", parameters: parameters).start { (connection, result, error) in
@@ -45,26 +51,9 @@ class PhotosInAlbumTableViewController: UITableViewController {
                 
                 for album in albums {
                     let name = album["name"] as! String
-                    if name == self.album {
-                        print(name)
-                        let photos = album["photos"] as! [String : Any]
-                        let photosData = photos["data"] as! [[String : Any]]
-                        
-                        for photo in photosData {
-                            let images = photo["images"] as! [[String : Any]]
-                            let bigImages = images[0]
-                            let image = bigImages["source"] as! String
-                            print(image)
-                            let url = URL.init(string: image)
-                            kBgQ.async {
-                                let data = try! Data.init(contentsOf: url!)
-                                let picture = UIImage.init(data: data)
-                                let model = Photos(photo: picture!)
-                                kMainQueue.async {
-                                    self.photos.append(model)
-                                }
-                            }
-                        }
+                    if name == self.albumName {
+                    self.photos.append(contentsOf: Photos(map: album).photoUrlString)
+                
                     }
                 }
             }
@@ -91,7 +80,7 @@ class PhotosInAlbumTableViewController: UITableViewController {
     // MARK: - Setup
     
     func setup() {
-        self.navigationItem.title = self.album
+        self.navigationItem.title = self.albumName
     }
 
     // MARK: - Table view data source
@@ -105,7 +94,7 @@ class PhotosInAlbumTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
 
         let photo = photos[indexPath.row]
-        cell.photoImage.image = photo.photo
+        cell.photoUrl = photo
         
         return cell
     }
@@ -113,7 +102,7 @@ class PhotosInAlbumTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let photo = photos[indexPath.row]
-        let photoView = photo.photo
+        let photoView = photo
         
         performSegue(withIdentifier: "PhotoViewController", sender: photoView)
     }
@@ -123,7 +112,7 @@ class PhotosInAlbumTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PhotoViewController" {
             if let controller = segue.destination as? PhotoViewController,
-                let photoView = sender as? UIImage {
+                let photoView = sender as? String {
                 
                 controller.image = photoView
             }

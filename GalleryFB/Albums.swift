@@ -7,14 +7,23 @@
 //
 
 import Foundation
-import UIKit
 
-class Albums {
+struct Albums {
     
     let albumName: String
-    let albumCover: UIImage
-    init(albumName: String, albumCover: UIImage) {
+    let albumCoverUrlString: String
+    init(albumName: String, albumCoverUrlString: String) {
         self.albumName = albumName
-        self.albumCover = albumCover
+        self.albumCoverUrlString = albumCoverUrlString
     }
+    
+    init(map: [String : Any]) {
+        let name = map["name"] as! String
+        let cover = map["picture"] as! [String : Any]
+        let coverData = cover["data"] as! [String : Any]
+        let urlString = coverData["url"] as! String
+        albumName = name
+        albumCoverUrlString = urlString
+    }
+    
 }

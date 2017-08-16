@@ -11,14 +11,13 @@ import FBSDKLoginKit
 import FBSDKCoreKit
 import FacebookCore
 import FacebookLogin
-
-let kBgQ = DispatchQueue.global(qos: .background)
-let kMainQueue = DispatchQueue.main
+import Alamofire
+import AlamofireImage
 
 class AlbumsTableViewController: UITableViewController {
     
-    var dict: [String: AnyObject]!
-    var albums = [Albums]() {
+    var dict: [String : AnyObject]!
+    var albums: [Albums] = [] {
         didSet {
             stopActivityIndicator()
             self.tableView.reloadData()
@@ -30,7 +29,7 @@ class AlbumsTableViewController: UITableViewController {
         startActivityIndicator()
         setup()
         if (FBSDKAccessToken.current() != nil) {
-            fetchProfile()
+            fetchAlbums()
         } else {
             let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
             self.present(loginVC, animated: true, completion: nil)
@@ -39,8 +38,7 @@ class AlbumsTableViewController: UITableViewController {
     
     // MARK: - Get data func
     
-    func fetchProfile() {
-        print("fetch profile")
+    func fetchAlbums() {
         
         let parameters = ["fields" : "albums{name,picture}"]
         FBSDKGraphRequest(graphPath: "me", parameters: parameters).start { (connection, result, error) in
@@ -50,22 +48,8 @@ class AlbumsTableViewController: UITableViewController {
                 let albums = self.dict["albums"]?["data"] as! [[String : Any]]
                 
                 for album in albums {
-                    let name = album["name"] as! String
-                    let cover = album["picture"] as! [String : Any]
-                    let coverData = cover["data"] as! [String : Any]
-                    let urlString = coverData["url"] as! String
-                    let url = URL.init(string: urlString)
-                    kBgQ.async {
-                        let data = try! Data.init(contentsOf: url!)
-                        let picture = UIImage.init(data: data)
-                        let model = Albums(albumName: name, albumCover: picture!)
-                        kMainQueue.async {
-                            self.albums.append(model)
-                        }
-                        
-                    }
+                    self.albums.append(Albums(map: album))
                 }
-            } else {
             }
         }
     }
@@ -102,12 +86,7 @@ class AlbumsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumsCell", for: indexPath) as! AlbumsTableViewCell
         
         let album = albums[indexPath.row]
-        
-        cell.albumNameLabel.text = album.albumName
-        cell.albumCoverImage.image = album.albumCover
-        
-        cell.albumCoverImage.layer.cornerRadius = cell.albumCoverImage.frame.height/2
-        cell.albumCoverImage.clipsToBounds = true
+        cell.album = album
         
         return cell
     }
@@ -127,7 +106,7 @@ class AlbumsTableViewController: UITableViewController {
             if let controller = segue.destination as? PhotosInAlbumTableViewController,
                 let nameOfAlbum = sender as? String {
                 
-                controller.album = nameOfAlbum
+                controller.albumName = nameOfAlbum
             }
         }
     }

@@ -9,18 +9,20 @@
 import UIKit
 
 class PhotoViewController: UIViewController {
-
-    var image = UIImage()
     
     @IBOutlet weak var fullImage: UIImageView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setup()
+    var image: String? {
+        didSet{
+            ImageDownloader.shared.downloadImages(url: image!) { image in
+                self.fullImage.image = image
+            }
+        }
     }
     
-    func setup() {
-        fullImage.image = image
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
     }
 
 }

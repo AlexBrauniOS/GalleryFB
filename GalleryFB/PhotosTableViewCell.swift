@@ -12,4 +12,12 @@ class PhotosTableViewCell: UITableViewCell {
 
     @IBOutlet weak var photoImage: UIImageView!
     
+    var photoUrl: String? {
+        didSet{
+            ImageDownloader.shared.downloadImages(url: photoUrl!) { image in
+                self.photoImage.image = image   
+            }
+        }
+    }
+    
 }

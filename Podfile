@@ -19,5 +19,6 @@ target 'GalleryFB' do
 
 pod ‘FacebookLogin’
 pod ‘FacebookCore’
+pod ‘AlamofireImage’
 
 end

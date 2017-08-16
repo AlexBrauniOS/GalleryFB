@@ -22,18 +22,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getLoginButton()
-//        if (FBSDKAccessToken.current() != nil) {
-//            print("current token")
-//            
-////            fetchProfile()
-//            
-//        } else {
-//            loginButton.center = view.center
-//            loginButton.delegate = self
-//            view.addSubview(loginButton)
-//        }
-//        
+        getLoginButton()       
     }
     
     func getLoginButton() {
@@ -59,7 +48,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             
             let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "NavigationController")
             self.present(navigationController!, animated: true, completion: nil)
-            
         }
     }
     

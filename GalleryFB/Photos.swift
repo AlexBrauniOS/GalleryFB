@@ -7,12 +7,25 @@
 //
 
 import Foundation
-import UIKit
 
 class Photos {
     
-    let photo: UIImage
-    init(photo: UIImage) {
-        self.photo = photo
+    var photoUrlString: [String] = []
+    init(photoUrlString: [String]) {
+        self.photoUrlString = photoUrlString
     }
+    
+    init(map: [String : Any]) {
+            let photos = map["photos"] as! [String : Any]
+            let photosData = photos["data"] as! [[String : Any]]
+            var newArray:[String] = []
+            for photo in photosData {
+                let images = photo["images"] as! [[String : Any]]
+                let bigImages = images[0]
+                let image = bigImages["source"] as! String
+                    newArray.append(image)
+            }
+            self.photoUrlString = newArray
+        }
+    
 }
