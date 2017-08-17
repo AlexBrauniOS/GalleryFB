@@ -18,10 +18,19 @@ class PhotosInAlbumTableViewController: UITableViewController {
 
     public var albumName: String!
     var dict: [String : AnyObject]!
-    var photos:[String] = [] {
+    var photoImages: [UIImage] = [] {
         didSet{
             stopActivityIndicator()
             self.tableView.reloadData()
+        }
+    }
+    var photos:[String] = [] {
+        didSet{
+            for photo in photos{
+                ImageDownloader.shared.downloadImages(url: photo) { image in
+                    self.photoImages.append(image)
+                }
+            }
         }
     }
     
@@ -87,14 +96,14 @@ class PhotosInAlbumTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return photos.count
+        return photoImages.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosCell", for: indexPath) as! PhotosTableViewCell
 
-        let photo = photos[indexPath.row]
-        cell.photoUrl = photo
+        let photo = photoImages[indexPath.row]
+        cell.photo = photo
         
         return cell
     }
