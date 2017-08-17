@@ -10,10 +10,16 @@ import Foundation
 import UIKit
 import Alamofire
 import AlamofireImage
+import FacebookLogin
+import FacebookCore
+import FBSDKLoginKit
+import FBSDKCoreKit
 
 class ImageDownloader {
     
     static let shared = ImageDownloader()
+    
+    var dict: [String : AnyObject]!
     
     func downloadImages(url: String, completion: @escaping (UIImage)->()) {
         let url = URL.init(string: url)
@@ -34,7 +40,5 @@ class ImageDownloader {
             downloadData.forEach { $0.cancel() }
         }
     }
-    
-    
-    
+
 }
