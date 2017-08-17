@@ -110,7 +110,7 @@ class PhotosInAlbumTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let photo = photos[indexPath.row]
+        let photo = photoImages[indexPath.row]
         let photoView = photo
         
         performSegue(withIdentifier: "PhotoViewController", sender: photoView)
@@ -121,7 +121,7 @@ class PhotosInAlbumTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PhotoViewController" {
             if let controller = segue.destination as? PhotoViewController,
-                let photoView = sender as? String {
+                let photoView = sender as? UIImage {
                 
                 controller.image = photoView
             }

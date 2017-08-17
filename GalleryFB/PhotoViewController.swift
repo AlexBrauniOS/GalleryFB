@@ -12,17 +12,15 @@ class PhotoViewController: UIViewController {
     
     @IBOutlet weak var fullImage: UIImageView!
     
-    var image: String? {
-        didSet{
-            ImageDownloader.shared.downloadImages(url: image!) { image in
-                self.fullImage.image = image
-            }
-        }
-    }
+    var image: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setup()
+    }
+    
+    func setup() {
+        self.fullImage.image = image
     }
 
 }
